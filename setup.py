@@ -14,14 +14,14 @@ class Build(build_ext):
 
 with open("pypi_readme.rst", "r") as fh:
   long_description = fh.read()
-# long_description = "Implement the feature extraction function of the `imgsmlr` plugin"
+# long_description = "Implement the feature extraction function of the `imgsmlr` extension"
 
 setuptools.setup(
     name="libimgsmlr",
-    version="0.0.7",
+    version="0.0.8",
     author="jie123108",
     author_email="jie123108@163.com",
-    description="Implement the feature extraction function of the ``imgsmlr`` plugin for ``PostgreSQL``.",
+    description="Implement the feature extraction function of the ``imgsmlr`` extension for ``PostgreSQL``.",
     long_description=long_description,
     # long_description_content_type="text/markdown",
     url="https://github.com/jie123108/libimgsmlr",

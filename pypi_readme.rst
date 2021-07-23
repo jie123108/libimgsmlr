@@ -1,11 +1,11 @@
 libimgsmlr
 ----------
 
-Implement the feature extraction function of the ``imgsmlr`` plugin, in
+Implement the feature extraction function of the ``imgsmlr`` extension, in
 languages such as: ``c(so file)``, ``Python``. Other languages should
 probably call dynamic libraries to adapt.
 
-When using the ``PostgreSQL`` plugin
+When using the ``PostgreSQL`` extension
 `imgsmlr <https://github.com/postgrespro/imgsmlr>`__, I found that the
 feature extraction functions provided by ``imgsmlr`` are all PostgreSQL
 functions. This poses a problem, as the files need to be uploaded to and
