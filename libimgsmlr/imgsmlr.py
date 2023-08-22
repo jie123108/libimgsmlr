@@ -3,6 +3,7 @@ import os.path
 import logging
 import filetype
 import logging
+import math
 
 so_name = "libimgsmlr.so"
 so_path_name = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + so_name
@@ -40,6 +41,14 @@ class Pattern(Structure):
                 arr2.append(round(self.values[i][j], 8))
             arr.append(arr2)
         return arr
+
+    def is_empty(self):
+        for i in range(PATTERN_SIZE):
+            arr2 = []
+            for j in range(PATTERN_SIZE):
+                if not math.isnan(self.values[i][j]):
+                    return False
+        return True
 
 Pattern_p = POINTER(Pattern)
 Signature = c_float * SIGNATURE_SIZE
@@ -84,6 +93,9 @@ def jpeg2pattern(img: bytes):
     patternBuf = Pattern()
     pattern = c_jpeg2pattern(img, len(img), patternBuf)
     if pattern:
+        # If the pattern is empty, it may be because the image is a solid color image.
+        if patternBuf.is_empty():
+            return False, "not supported solid color image"
         return True, patternBuf
     return False, "not a valid jpeg file"
 
@@ -91,6 +103,9 @@ def png2pattern(img: bytes):
     patternBuf = Pattern()
     pattern = c_png2pattern(img, len(img), patternBuf)
     if pattern:
+        # If the pattern is empty, it may be because the image is a solid color image.
+        if patternBuf.is_empty():
+            return False, "not supported solid color image"
         return True, patternBuf
     return False, "not a valid png file"
 
@@ -98,6 +113,9 @@ def gif2pattern(img: bytes):
     patternBuf = Pattern()
     pattern = c_gif2pattern(img, len(img), patternBuf)
     if pattern:
+        # If the pattern is empty, it may be because the image is a solid color image.
+        if patternBuf.is_empty():
+            return False, "not supported solid color image"
         return True, patternBuf
     return False, "not a valid gif file"
 
@@ -105,6 +123,9 @@ def webp2pattern(img: bytes):
     patternBuf = Pattern()
     pattern = c_webp2pattern(img, len(img), patternBuf)
     if pattern:
+        # If the pattern is empty, it may be because the image is a solid color image.
+        if patternBuf.is_empty():
+            return False, "not supported solid color image"
         return True, patternBuf
     return False, "not a valid webp file"
 
