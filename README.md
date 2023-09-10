@@ -42,6 +42,15 @@ if __name__ == "__main__":
         print("ERROR: img2pattern(%s) failed! %s" % (filename, err))
 ```
 
+## go test
+
+```
+# On mac
+export CGO_CFLAGS="-I$(brew --prefix gd)/include"
+export CGO_LDFLAGS="-L$(brew --prefix gd)/lib"
+sh go_test.sh image-file.jpg
+```
+
 ## LICENSE
 
 [MIT](./LICENSE)

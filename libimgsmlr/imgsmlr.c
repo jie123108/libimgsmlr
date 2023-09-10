@@ -1,5 +1,6 @@
 
-#include <gd.h>
+#include "imgsmlr.h"
+#include "gd.h"
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -11,15 +12,6 @@
 #define Min(a,b) (((a)<(b))?(a):(b))
 #define Max(a,b) (((a)>(b))?(a):(b))
 
-typedef struct
-{
-	float values[PATTERN_SIZE][PATTERN_SIZE];
-} Pattern;
-
-typedef float Signature[SIGNATURE_SIZE];
-
-// #define CHECK_SIGNATURE_KEY(key) Assert(VARSIZE_ANY_EXHDR(key) == sizeof(Signature) || VARSIZE_ANY_EXHDR(key) == 2 * sizeof(Signature));
-
 
 static void makePattern(gdImagePtr im, Pattern *pattern);
 static void normalizePattern(Pattern *pattern);
@@ -27,11 +19,6 @@ static void waveletTransform(Pattern *dst, Pattern *src, int size);
 static float calcSumm(Pattern *pattern, int x, int y, int sX, int sY);
 static void shuffle(Pattern *dst, Pattern *src, int x, int y, int sX, int sY, int w);
 
-int pattern2signature(Pattern* pattern, Signature signature);
-int shuffle_pattern(Pattern* patternDst, Pattern* patternSrc);
-Pattern* jpeg2pattern(void* img, int size, Pattern* pattern);
-Pattern* png2pattern(void* img, int size, Pattern* pattern);
-Pattern* gif2pattern(void* img, int size, Pattern* pattern);
 
 /*
  * Extract signature from pattern.
