@@ -81,9 +81,7 @@ func (sign *Signature) Scan(input interface{}) error {
 }
 
 // Pattern is a Go representation of the C Pattern struct.
-type Pattern struct {
-	Values [PatternSize][PatternSize]SimFloat
-}
+type Pattern [PatternSize][PatternSize]SimFloat
 
 func (p Pattern) String() string {
 	builder := strings.Builder{}
@@ -92,7 +90,7 @@ func (p Pattern) String() string {
 	for i := 0; i < PatternSize; i++ {
 		builder.WriteString("(")
 		for j := 0; j < PatternSize; j++ {
-			builder.WriteString(p.Values[i][j].String())
+			builder.WriteString(p[i][j].String())
 			if j < PatternSize-1 {
 				builder.WriteString(", ")
 			}
@@ -134,7 +132,7 @@ func (p *Pattern) Scan(input interface{}) error {
 		}
 
 		for j, valStr := range values {
-			_, err := fmt.Sscanf(valStr, "%f", &p.Values[i][j])
+			_, err := fmt.Sscanf(valStr, "%f", &p[i][j])
 			if err != nil {
 				return err
 			}
