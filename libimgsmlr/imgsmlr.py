@@ -13,6 +13,12 @@ except OSError as ex:
     logging.error("ctypes.cdll.LoadLibrary(%s) failed! ex: %s", so_path_name, ex)
     raise ex
 
+g_precision = 6
+def set_sim_float_precision(precision):
+    global g_precision
+    g_precision = precision
+
+
 """
 typedef struct
 {
@@ -38,7 +44,7 @@ class Pattern(Structure):
         for i in range(PATTERN_SIZE):
             arr2 = []
             for j in range(PATTERN_SIZE):
-                arr2.append(round(self.values[i][j], 8))
+                arr2.append(round(self.values[i][j], g_precision))
             arr.append(arr2)
         return arr
 
@@ -162,7 +168,7 @@ def pattern2signature(pattern):
     c_pattern2signature(pattern, c_signature)
     signature = []
     for sign in c_signature:
-        signature.append(round(sign, 6))
+        signature.append(round(sign, g_precision))
     return signature
 
 def shuffle_pattern(pattern):

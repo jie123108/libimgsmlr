@@ -2,7 +2,7 @@ package libimgsmlr
 
 /*
 #cgo CFLAGS: -std=c11
-#cgo LDFLAGS: -lgd
+#cgo LDFLAGS: -lgd -lm
 #include "imgsmlr.h"
 */
 import "C"
