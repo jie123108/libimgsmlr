@@ -1,15 +1,15 @@
 # imgsmlr/Makefile
 
 CC=gcc
-CFLAGS=-g -Werror -fPIC
-LDFLAGS=-lgd
+MYCFLAGS=-g -Werror -fPIC
+MYLDFLAGS=-lgd
 
 SRCS=imgsmlr.c
 
 all: libimgsmlr.so libimgsmlr.$(shell uname).a
 
 libimgsmlr.so: ${SRCS}
-	$(CC) ${CFLAGS} ${LDFLAGS} -Werror $^ -shared -o $@
+	$(CC) ${MYCFLAGS} ${MYLDFLAGS} -Werror $^ -shared -o $@
 
 libimgsmlr.$(shell uname).a: ${SRCS}
 	$(CC) ${CFLAGS_A} -c $^

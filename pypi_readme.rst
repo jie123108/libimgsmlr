@@ -31,6 +31,23 @@ Installation
 
     pip install --global-option=build_ext libimgsmlr
 
+Errors
+------
+
+If the following error is encountered on Mac OSX.
+
+::
+
+    fatal error: 'gd.h' file not found
+    #include "gd.h"
+
+The solution is to set the environment variable first:
+
+::
+
+    export CFLAGS="-I$(brew --prefix gd)/include"
+    export LFDLAGS="-L$(brew --prefix gd)/lib"
+
 Examples
 --------
 
