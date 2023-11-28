@@ -151,8 +151,8 @@ def img2pattern(img: bytes):
         ok, pattern = png2pattern(img)
     elif kind.mime == "image/gif":
         ok, pattern = gif2pattern(img)
-    # elif kind.mime == "image/webp":
-    #     ok, pattern = webp2pattern(img)
+    elif kind.mime == "image/webp":
+        ok, pattern = webp2pattern(img)
     else:
         raise ValueError("'%s' not supported" % kind.mime)
     if not ok:
