@@ -30,7 +30,7 @@ fatal error: 'gd.h' file not found
 The solution is to set the environment variable first:
 ```
 export CFLAGS="-I$(brew --prefix gd)/include"
-export LFDLAGS="-L$(brew --prefix gd)/lib"
+export LDFLAGS="-L$(brew --prefix gd)/lib"
 ```
 
 ## Examples
