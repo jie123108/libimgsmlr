@@ -1,4 +1,3 @@
-
 #include "imgsmlr.h"
 #include "gd.h"
 #include <stdio.h>
@@ -278,3 +277,59 @@ static float calcSumm(Pattern *pattern, int x, int y, int sX, int sY)
 	}
 	return sqrt(summ);
 }
+
+/*
+ * 计算"patternA"和"patternB"在矩形"(x, y) - (x + sX, y + sY)"内的平方差之和。
+ */
+static float calcDiff(Pattern *patternA, Pattern *patternB, int x, int y, int sX, int sY)
+{
+    int i, j;
+    float summ = 0.0f, val;
+    for (i = x; i < x + sX; i++)
+    {
+        for (j = y; j < y + sY; j++)
+        {
+            val = patternA->values[i][j] - patternB->values[i][j];
+            summ += val * val;
+        }
+    }
+    return summ;
+}
+
+
+float pattern_distance(Pattern *patternA, Pattern *patternB)
+{
+    float distance = 0.0f, val;
+    int size = PATTERN_SIZE;
+    float mult = 1.0f;
+
+    while (size > 1)
+    {
+        size /= 2;
+        distance += mult * calcDiff(patternA, patternB, size, 0, size, size);
+        distance += mult * calcDiff(patternA, patternB, 0, size, size, size);
+        distance += mult * calcDiff(patternA, patternB, size, size, size, size);
+        mult *= 2.0f;
+    }
+    val = patternA->values[0][0] - patternB->values[0][0];
+    distance += mult * val * val;
+    distance = sqrt(distance);
+
+    return distance;
+}
+
+float signature_distance(Signature signatureA, Signature signatureB)
+{
+    float distance = 0.0f, val;
+    int i;
+
+    for (i = 0; i < SIGNATURE_SIZE; i++)
+    {
+        val = signatureA[i] - signatureB[i];
+        distance += val * val;
+    }
+    distance = sqrt(distance);
+
+    return distance;
+}
+

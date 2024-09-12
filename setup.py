@@ -27,7 +27,7 @@ with open("pypi_readme.rst", "r") as fh:
 
 setuptools.setup(
     name="libimgsmlr",
-    version="0.1.5",
+    version="0.1.6",
     author="jie123108",
     author_email="jie123108@163.com",
     description="Implement the feature extraction function of the ``imgsmlr`` extension for ``PostgreSQL``.",

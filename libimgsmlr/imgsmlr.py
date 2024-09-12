@@ -32,6 +32,8 @@ Pattern* jpeg2pattern(void* img, int size, Pattern* pattern);
 Pattern* png2pattern(void* img, int size, Pattern* pattern);
 Pattern* gif2pattern(void* img, int size, Pattern* pattern);
 Pattern* webp2pattern(void* img, int size, Pattern* pattern);
+float pattern_distance(Pattern *patternA, Pattern *patternB);
+float signature_distance(Signature signatureA, Signature signatureB);
 """
 
 PATTERN_SIZE = 64
@@ -88,12 +90,26 @@ def initShufflePatternFunc():
     shuffle_pattern.restype = c_int
     return shuffle_pattern
 
+def initPatternDistanceFunc():
+    pattern_distance = libimgsmlr.pattern_distance
+    pattern_distance.argtypes = (Pattern_p, Pattern_p)
+    pattern_distance.restype = c_float
+    return pattern_distance
+
+def initSignatureDistanceFunc():
+    signature_distance = libimgsmlr.signature_distance
+    signature_distance.argtypes = (Signature, Signature)
+    signature_distance.restype = c_float
+    return signature_distance
+
 c_jpeg2pattern = initJpeg2patternFunc()
 c_png2pattern = initPng2patternFunc()
 c_gif2pattern = initGif2patternFunc()
 c_webp2pattern = initWebp2patternFunc()
 c_pattern2signature = initPattern2signatureFunc()
 c_shuffle_pattern = initShufflePatternFunc()
+c_pattern_distance = initPatternDistanceFunc()
+c_signature_distance = initSignatureDistanceFunc()
 
 def jpeg2pattern(img: bytes):
     patternBuf = Pattern()
@@ -177,3 +193,15 @@ def shuffle_pattern(pattern):
     patternOut = Pattern()
     c_shuffle_pattern(patternOut, pattern)
     return patternOut
+
+def pattern_distance(patternA, patternB):
+    if not patternA or not patternB:
+        raise ValueError("patterns cannot be None")
+    return round(c_pattern_distance(patternA, patternB), g_precision)
+
+def signature_distance(signatureA, signatureB):
+    if not signatureA or not signatureB:
+        raise ValueError("signatures cannot be None")
+    c_signatureA = Signature(*signatureA)
+    c_signatureB = Signature(*signatureB)
+    return round(c_signature_distance(c_signatureA, c_signatureB), g_precision)
